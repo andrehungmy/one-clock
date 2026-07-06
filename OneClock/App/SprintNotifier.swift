@@ -1,5 +1,8 @@
 import Foundation
-import UserNotifications
+// UNNotificationSettings is not Sendable in newer SDKs, so awaiting
+// notificationSettings() from a @MainActor context is a Swift 6 error
+// without @preconcurrency.
+@preconcurrency import UserNotifications
 
 @MainActor
 protocol SprintNotifying: AnyObject {
