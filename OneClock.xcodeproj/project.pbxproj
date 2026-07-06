@@ -10,22 +10,66 @@
 		1C0A000F2D21000000000000 /* OneClockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A000E2D21000000000000 /* OneClockApp.swift */; };
 		1C0A00112D21000000000000 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00102D21000000000000 /* AppDelegate.swift */; };
 		1C0A00132D21000000000000 /* MenuBarContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00122D21000000000000 /* MenuBarContent.swift */; };
+		1C0A00402D21000000000000 /* SprintMenuCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A003F2D21000000000000 /* SprintMenuCommands.swift */; };
 		1C0A00152D21000000000000 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00142D21000000000000 /* AppState.swift */; };
 		1C0A00172D21000000000000 /* FloatingPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00162D21000000000000 /* FloatingPanelView.swift */; };
 		1C0A00192D21000000000000 /* FloatingPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00182D21000000000000 /* FloatingPanel.swift */; };
 		1C0A001B2D21000000000000 /* FloatingPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A001A2D21000000000000 /* FloatingPanelController.swift */; };
+		1C0A003C2D21000000000000 /* SprintPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A003B2D21000000000000 /* SprintPresentation.swift */; };
+		1C0A003E2D21000000000000 /* SprintPresentationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A003D2D21000000000000 /* SprintPresentationTests.swift */; };
+		1C0A00422D21000000000000 /* MenuAndPanelLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00412D21000000000000 /* MenuAndPanelLifecycleTests.swift */; };
+		1C0A00272D21000000000000 /* SprintState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00252D21000000000000 /* SprintState.swift */; };
+		1C0A00282D21000000000000 /* SprintEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00262D21000000000000 /* SprintEngine.swift */; };
+		1C0A002B2D21000000000000 /* SprintEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A002A2D21000000000000 /* SprintEngineTests.swift */; };
+		1C0A00382D21000000000000 /* SprintSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00372D21000000000000 /* SprintSessionController.swift */; };
+		1C0A00442D21000000000000 /* SprintStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00432D21000000000000 /* SprintStore.swift */; };
+		1C0A00462D21000000000000 /* SprintSoundPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00452D21000000000000 /* SprintSoundPlayer.swift */; };
+		1C0A00482D21000000000000 /* SprintLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00472D21000000000000 /* SprintLog.swift */; };
+		1C0A004A2D21000000000000 /* SprintNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00492D21000000000000 /* SprintNotifier.swift */; };
+		1C0A004C2D21000000000000 /* SprintLogExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A004B2D21000000000000 /* SprintLogExporter.swift */; };
+		1C0A004E2D21000000000000 /* SprintLogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A004D2D21000000000000 /* SprintLogTests.swift */; };
+		1C0A00522D21000000000000 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1C0A00512D21000000000000 /* AppIcon.icns */; };
+		1C0A003A2D21000000000000 /* SprintSessionControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00392D21000000000000 /* SprintSessionControllerTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1C0A00312D21000000000000 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1C0A00002D21000000000000 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1C0A00042D21000000000000;
+			remoteInfo = OneClock;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1C0A00062D21000000000000 /* OneClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C0A000E2D21000000000000 /* OneClockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneClockApp.swift; sourceTree = "<group>"; };
 		1C0A00102D21000000000000 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1C0A00122D21000000000000 /* MenuBarContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarContent.swift; sourceTree = "<group>"; };
+		1C0A003F2D21000000000000 /* SprintMenuCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintMenuCommands.swift; sourceTree = "<group>"; };
 		1C0A00142D21000000000000 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		1C0A00162D21000000000000 /* FloatingPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPanelView.swift; sourceTree = "<group>"; };
 		1C0A00182D21000000000000 /* FloatingPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPanel.swift; sourceTree = "<group>"; };
 		1C0A001A2D21000000000000 /* FloatingPanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPanelController.swift; sourceTree = "<group>"; };
 		1C0A001C2D21000000000000 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1C0A00242D21000000000000 /* OneClockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneClockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C0A003B2D21000000000000 /* SprintPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintPresentation.swift; sourceTree = "<group>"; };
+		1C0A003D2D21000000000000 /* SprintPresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintPresentationTests.swift; sourceTree = "<group>"; };
+		1C0A00412D21000000000000 /* MenuAndPanelLifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuAndPanelLifecycleTests.swift; sourceTree = "<group>"; };
+		1C0A00252D21000000000000 /* SprintState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintState.swift; sourceTree = "<group>"; };
+		1C0A00262D21000000000000 /* SprintEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintEngine.swift; sourceTree = "<group>"; };
+		1C0A002A2D21000000000000 /* SprintEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintEngineTests.swift; sourceTree = "<group>"; };
+		1C0A00372D21000000000000 /* SprintSessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintSessionController.swift; sourceTree = "<group>"; };
+		1C0A00392D21000000000000 /* SprintSessionControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintSessionControllerTests.swift; sourceTree = "<group>"; };
+		1C0A00432D21000000000000 /* SprintStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintStore.swift; sourceTree = "<group>"; };
+		1C0A00452D21000000000000 /* SprintSoundPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintSoundPlayer.swift; sourceTree = "<group>"; };
+		1C0A00472D21000000000000 /* SprintLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintLog.swift; sourceTree = "<group>"; };
+		1C0A00492D21000000000000 /* SprintNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintNotifier.swift; sourceTree = "<group>"; };
+		1C0A004B2D21000000000000 /* SprintLogExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintLogExporter.swift; sourceTree = "<group>"; };
+		1C0A004D2D21000000000000 /* SprintLogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintLogTests.swift; sourceTree = "<group>"; };
+		1C0A00512D21000000000000 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
+		1C0A00552D21000000000000 /* OneClock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneClock.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,13 +80,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1C0A002E2D21000000000000 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1C0A00502D21000000000000 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C0A00522D21000000000000 /* AppIcon.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXGroup section */
 		1C0A00012D21000000000000 = {
 			isa = PBXGroup;
 			children = (
 				1C0A000C2D21000000000000 /* OneClock */,
+				1C0A00292D21000000000000 /* OneClockTests */,
 				1C0A00052D21000000000000 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -51,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				1C0A00062D21000000000000 /* OneClock.app */,
+				1C0A00242D21000000000000 /* OneClockTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,6 +125,10 @@
 				1C0A000E2D21000000000000 /* OneClockApp.swift */,
 				1C0A00102D21000000000000 /* AppDelegate.swift */,
 				1C0A00122D21000000000000 /* MenuBarContent.swift */,
+				1C0A003F2D21000000000000 /* SprintMenuCommands.swift */,
+				1C0A00452D21000000000000 /* SprintSoundPlayer.swift */,
+				1C0A00492D21000000000000 /* SprintNotifier.swift */,
+				1C0A004B2D21000000000000 /* SprintLogExporter.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -69,6 +137,9 @@
 			isa = PBXGroup;
 			children = (
 				1C0A00142D21000000000000 /* AppState.swift */,
+				1C0A00372D21000000000000 /* SprintSessionController.swift */,
+				1C0A00432D21000000000000 /* SprintStore.swift */,
+				1C0A00472D21000000000000 /* SprintLog.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -77,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				1C0A00162D21000000000000 /* FloatingPanelView.swift */,
+				1C0A003B2D21000000000000 /* SprintPresentation.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -94,12 +166,44 @@
 			isa = PBXGroup;
 			children = (
 				1C0A00082D21000000000000 /* App */,
+				1C0A002D2D21000000000000 /* Domain */,
 				1C0A00092D21000000000000 /* State */,
 				1C0A000A2D21000000000000 /* Views */,
 				1C0A000B2D21000000000000 /* Window */,
+				1C0A00532D21000000000000 /* Resources */,
+				1C0A00552D21000000000000 /* OneClock.entitlements */,
 				1C0A001C2D21000000000000 /* Info.plist */,
 			);
 			path = OneClock;
+			sourceTree = "<group>";
+		};
+		1C0A00532D21000000000000 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1C0A00512D21000000000000 /* AppIcon.icns */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		1C0A00292D21000000000000 /* OneClockTests */ = {
+			isa = PBXGroup;
+			children = (
+				1C0A002A2D21000000000000 /* SprintEngineTests.swift */,
+				1C0A00392D21000000000000 /* SprintSessionControllerTests.swift */,
+				1C0A003D2D21000000000000 /* SprintPresentationTests.swift */,
+				1C0A00412D21000000000000 /* MenuAndPanelLifecycleTests.swift */,
+				1C0A004D2D21000000000000 /* SprintLogTests.swift */,
+			);
+			path = OneClockTests;
+			sourceTree = "<group>";
+		};
+		1C0A002D2D21000000000000 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				1C0A00252D21000000000000 /* SprintState.swift */,
+				1C0A00262D21000000000000 /* SprintEngine.swift */,
+			);
+			path = Domain;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -111,6 +215,7 @@
 			buildPhases = (
 				1C0A00022D21000000000000 /* Sources */,
 				1C0A00032D21000000000000 /* Frameworks */,
+				1C0A00502D21000000000000 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -122,6 +227,25 @@
 			productName = OneClock;
 			productReference = 1C0A00062D21000000000000 /* OneClock.app */;
 			productType = "com.apple.product-type.application";
+		};
+		1C0A002C2D21000000000000 /* OneClockTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1C0A00342D21000000000000 /* Build configuration list for PBXNativeTarget "OneClockTests" */;
+			buildPhases = (
+				1C0A002F2D21000000000000 /* Sources */,
+				1C0A002E2D21000000000000 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1C0A00322D21000000000000 /* PBXTargetDependency */,
+			);
+			name = OneClockTests;
+			packageProductDependencies = (
+			);
+			productName = OneClockTests;
+			productReference = 1C0A00242D21000000000000 /* OneClockTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -135,6 +259,10 @@
 				TargetAttributes = {
 					1C0A00042D21000000000000 = {
 						CreatedOnToolsVersion = 26.6;
+					};
+					1C0A002C2D21000000000000 = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = 1C0A00042D21000000000000;
 					};
 				};
 			};
@@ -153,6 +281,7 @@
 			projectRoot = "";
 			targets = (
 				1C0A00042D21000000000000 /* OneClock */,
+				1C0A002C2D21000000000000 /* OneClockTests */,
 			);
 		};
 /* End PBXProject section */
@@ -165,14 +294,44 @@
 				1C0A000F2D21000000000000 /* OneClockApp.swift in Sources */,
 				1C0A00112D21000000000000 /* AppDelegate.swift in Sources */,
 				1C0A00132D21000000000000 /* MenuBarContent.swift in Sources */,
+				1C0A00402D21000000000000 /* SprintMenuCommands.swift in Sources */,
+				1C0A00272D21000000000000 /* SprintState.swift in Sources */,
+				1C0A00282D21000000000000 /* SprintEngine.swift in Sources */,
 				1C0A00152D21000000000000 /* AppState.swift in Sources */,
+				1C0A00382D21000000000000 /* SprintSessionController.swift in Sources */,
+				1C0A00442D21000000000000 /* SprintStore.swift in Sources */,
+				1C0A00462D21000000000000 /* SprintSoundPlayer.swift in Sources */,
+				1C0A00482D21000000000000 /* SprintLog.swift in Sources */,
+				1C0A004A2D21000000000000 /* SprintNotifier.swift in Sources */,
+				1C0A004C2D21000000000000 /* SprintLogExporter.swift in Sources */,
 				1C0A00172D21000000000000 /* FloatingPanelView.swift in Sources */,
+				1C0A003C2D21000000000000 /* SprintPresentation.swift in Sources */,
 				1C0A00192D21000000000000 /* FloatingPanel.swift in Sources */,
 				1C0A001B2D21000000000000 /* FloatingPanelController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1C0A002F2D21000000000000 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C0A002B2D21000000000000 /* SprintEngineTests.swift in Sources */,
+				1C0A003A2D21000000000000 /* SprintSessionControllerTests.swift in Sources */,
+				1C0A003E2D21000000000000 /* SprintPresentationTests.swift in Sources */,
+				1C0A00422D21000000000000 /* MenuAndPanelLifecycleTests.swift in Sources */,
+				1C0A004E2D21000000000000 /* SprintLogTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1C0A00322D21000000000000 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1C0A00042D21000000000000 /* OneClock */;
+			targetProxy = 1C0A00312D21000000000000 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1C0A001F2D21000000000000 /* Debug */ = {
@@ -294,21 +453,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = OneClock/OneClock.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = OneClock/Info.plist;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright \U00a9 2026 Andre Hung";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.andrehung.OneClock.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -320,25 +480,74 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = OneClock/OneClock.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = OneClock/Info.plist;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright \U00a9 2026 Andre Hung";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.andrehung.OneClock.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		1C0A00352D21000000000000 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.andrehung.OneClockTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneClock.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneClock";
+			};
+			name = Debug;
+		};
+		1C0A00362D21000000000000 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.andrehung.OneClockTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneClock.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OneClock";
 			};
 			name = Release;
 		};
@@ -359,6 +568,15 @@
 			buildConfigurations = (
 				1C0A00222D21000000000000 /* Debug */,
 				1C0A00232D21000000000000 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1C0A00342D21000000000000 /* Build configuration list for PBXNativeTarget "OneClockTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C0A00352D21000000000000 /* Debug */,
+				1C0A00362D21000000000000 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
