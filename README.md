@@ -32,14 +32,6 @@ If a timer keeps the active task visible alongside time remaining, users can rec
 - **Session recovery** — an in-progress sprint survives quitting or relaunching the app; elapsed time is derived from absolute timestamps, so it stays accurate across the gap.
 - **Menu bar controls** — start, pause/resume, finish, new, reset, and the sprint log are available from the status item menu even when the panel is hidden; the countdown keeps updating while you drag the panel or browse menus.
 
-## Screenshots
-
-![Setup mockup](docs/images/setup.png)
-
-![Running mockup](docs/images/running.png)
-
-![Finish mockup](docs/images/finish.png)
-
 ## Requirements
 
 - macOS 14.0 or later
@@ -82,20 +74,7 @@ OneClockTests/         unit tests (Swift Testing)
 OneClock.xcodeproj/    Xcode project
 script/                local development scripts
 .github/workflows/     CI (build + test on macOS)
-docs/
-  product/             PRD, technical spec, wireframe, implementation status
-  decisions/           technical decision records and spikes
-  images/              product mockups
 ```
-
-## Documentation
-
-- [Product Requirements](docs/product/prd.md)
-- [Implementation Status](docs/product/implementation-status.md)
-- [Technical Specification v0.1](docs/product/technical-spec-v0.1.md)
-- [Wireframe Specification](docs/product/wireframe.md)
-- [Floating Window Spike](docs/decisions/floating-window-spike.md)
-- [Panel Visual Refresh (fixed-slot layout)](docs/decisions/panel-visual-refresh.md)
 
 ## Distribution Readiness
 
