@@ -32,6 +32,24 @@ If a timer keeps the active task visible alongside time remaining, users can rec
 - **Session recovery** — an in-progress sprint survives quitting or relaunching the app; elapsed time is derived from absolute timestamps, so it stays accurate across the gap.
 - **Menu bar controls** — start, pause/resume, finish, new, reset, and the sprint log are available from the status item menu even when the panel is hidden; the countdown keeps updating while you drag the panel or browse menus.
 
+## Screenshots
+
+Setting up a sprint, with the log sidebar revealed by widening the panel:
+
+<img src="assets/setup.png" width="640" alt="Setup: positional MM:SS entry, quick presets, and the sprint log sidebar">
+
+A sprint in progress — the primary action stays bottom-right in every state:
+
+<img src="assets/running.png" width="640" alt="Running: live countdown, pause and +5m controls, editable sprint name">
+
+Compact pill mode keeps the countdown visible while barely occupying the workspace:
+
+<img src="assets/compact.png" width="264" alt="Compact pill: state dot, live time, and task name">
+
+A seven-step tutorial introduces the flow on first launch:
+
+<img src="assets/tutorial.png" width="340" alt="First-run tutorial overlay">
+
 ## Requirements
 
 - macOS 14.0 or later
@@ -73,6 +91,7 @@ OneClock/              macOS app source
 OneClockTests/         unit tests (Swift Testing)
 OneClock.xcodeproj/    Xcode project
 script/                local development scripts
+assets/                README screenshots
 .github/workflows/     CI (build + test on macOS)
 ```
 
