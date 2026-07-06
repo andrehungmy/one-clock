@@ -2,7 +2,10 @@
 set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-DERIVED_DATA_PATH="${PROJECT_ROOT}/.build/DerivedData"
+# DerivedData defaults to a non-iCloud-synced location: the Desktop/Documents
+# file provider adds Finder metadata to build products, which breaks codesign.
+# Override with ONECLOCK_DERIVED_DATA to choose another path.
+DERIVED_DATA_PATH="${ONECLOCK_DERIVED_DATA:-${TMPDIR:-/tmp}/OneClockDerivedData}"
 PROJECT_PATH="${PROJECT_ROOT}/OneClock.xcodeproj"
 SCHEME="OneClock"
 CONFIGURATION="Debug"
@@ -41,6 +44,6 @@ if pgrep -x "OneClock" >/dev/null; then
 fi
 
 echo "==> Launching ${APP_PATH}"
-open -b "${BUNDLE_ID}" "${APP_PATH}" || open "${APP_PATH}"
+open "${APP_PATH}"
 
 echo "==> One Clock launched"
