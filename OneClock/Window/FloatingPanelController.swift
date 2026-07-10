@@ -31,6 +31,11 @@ final class FloatingPanelController: NSObject, FloatingPanelControlling, NSWindo
 
     func show(session: SprintSessionController) {
         let panel = existingOrCreatePanel(session: session)
+        // Already showing on another desktop: order it out first so it re-homes
+        // to the desktop the user is on now, instead of switching desktops.
+        if panel.isVisible, !panel.isOnActiveSpace {
+            panel.orderOut(nil)
+        }
         panel.centerOnVisibleScreenIfNeeded()
         panel.orderFrontRegardless()
         panel.makeKey()
@@ -79,9 +84,7 @@ final class FloatingPanelController: NSObject, FloatingPanelControlling, NSWindo
     }
 
     private func setFrameSize(_ size: NSSize, for panel: NSPanel) {
-        var frame = panel.frame
-        frame.origin.y = frame.maxY - size.height
-        frame.size = size
+        let frame = PanelLayout.topAnchoredFrame(from: panel.frame, size: size)
         panel.setFrame(frame, display: true, animate: true)
     }
 
@@ -123,7 +126,12 @@ final class FloatingPanelController: NSObject, FloatingPanelControlling, NSWindo
         panel.backgroundColor = .clear
         panel.isOpaque = false
         panel.hasShadow = true
-        panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+        // Behave like a normal macOS window instead of tiling across every
+        // Space: `.moveToActiveSpace` binds the panel to a single Space — it
+        // stays behind when you switch desktops and is summoned to the current
+        // desktop when reopened — and can be dragged to another desktop.
+        // `.fullScreenAuxiliary` keeps it available over full-screen apps.
+        panel.collectionBehavior = [.moveToActiveSpace, .fullScreenAuxiliary]
 
         self.panel = panel
         createdPanelCount += 1
