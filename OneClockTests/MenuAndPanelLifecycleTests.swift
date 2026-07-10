@@ -40,6 +40,20 @@ struct MenuAndPanelLifecycleTests {
         #expect(fixture.panelController.hideCallCount == 1)
     }
 
+    @Test("Toggling the panel flips visibility so the menu label follows")
+    func togglePanelFlipsVisibility() {
+        let fixture = makeAppState()
+
+        #expect(!fixture.appState.isPanelVisible)
+
+        fixture.appState.togglePanel()
+        #expect(fixture.appState.isPanelVisible)
+
+        // Hiding must flip the toggle back so the menu reads "Show One Clock".
+        fixture.appState.togglePanel()
+        #expect(!fixture.appState.isPanelVisible)
+    }
+
     @Test("Running sprint continues ticking while panel is hidden")
     func runningSprintContinuesWhileHidden() {
         let fixture = makeAppState()
