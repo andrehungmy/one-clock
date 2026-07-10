@@ -1,3 +1,4 @@
+import CoreGraphics
 import Foundation
 import Testing
 @testable import OneClock
@@ -142,5 +143,37 @@ struct SprintPresentationTests {
         #expect(Set(steps.map(\.title)).count == steps.count)
         #expect(steps.first?.title == "Welcome to One Clock")
         #expect(steps.last?.title == "Ready to focus?")
+    }
+}
+
+@Suite("PanelLayout")
+struct PanelLayoutTests {
+    @Test("Log sidebar appears only at or above the width threshold")
+    func logSidebarThreshold() {
+        // The default panel width and the narrow floor stay single-column, so
+        // the close button keeps the panel's own top-right corner there.
+        #expect(!PanelLayout.showsLogSidebar(forContentWidth: 320))
+        #expect(!PanelLayout.showsLogSidebar(forContentWidth: 499))
+        // 500 is the inclusive threshold; 502 is a real persisted panel width.
+        #expect(PanelLayout.showsLogSidebar(forContentWidth: 500))
+        #expect(PanelLayout.showsLogSidebar(forContentWidth: 502))
+        #expect(PanelLayout.showsLogSidebar(forContentWidth: 800))
+    }
+
+    @Test("Compact/expand resize stays anchored to the panel's top edge")
+    func topAnchoredResizeKeepsTopFixed() {
+        // macOS window frames use a bottom-left origin, so the top edge is maxY.
+        let expanded = CGRect(x: 837, y: 618, width: 502, height: 236)
+
+        let compact = PanelLayout.topAnchoredFrame(from: expanded, size: CGSize(width: 264, height: 60))
+        #expect(compact.maxY == expanded.maxY)          // top edge held fixed
+        #expect(compact.origin.x == expanded.origin.x)  // left edge held fixed
+        #expect(compact.width == 264)
+        #expect(compact.height == 60)
+
+        // Expanding back from the pill grows downward from the same top edge.
+        let reExpanded = PanelLayout.topAnchoredFrame(from: compact, size: CGSize(width: 502, height: 236))
+        #expect(reExpanded.maxY == expanded.maxY)
+        #expect(reExpanded.origin == expanded.origin)
     }
 }

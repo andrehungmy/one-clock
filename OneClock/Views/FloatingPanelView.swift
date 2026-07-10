@@ -21,14 +21,42 @@ private enum PanelMetrics {
     static let compactSize = CGSize(width: 264, height: 60)
     static let compactTimeFontSize: CGFloat = 22
 
-    /// Width at which the log sidebar appears; below it (and in compact mode)
-    /// the panel stays a single column. The sidebar itself is fixed-width so
-    /// the main column — and the controls row under both — keeps its geometry.
-    static let logSidebarMinWidth: CGFloat = 500
-    static let logSidebarWidth: CGFloat = 185
-
     static var timeFont: Font {
         .system(size: timeFontSize, weight: .bold, design: .rounded)
+    }
+}
+
+/// Pure, unit-testable layout decisions for the expanded panel, split out of
+/// the SwiftUI view and the AppKit window controller so they can be checked
+/// without rendering. Two invariants regress silently otherwise: the log
+/// sidebar appears only past a width threshold — and when it does it is a
+/// fixed-width *right* column, so the status row (and its close button) stays
+/// at the top-right of the main column, not above the sidebar — and switching
+/// to/from the compact pill stays anchored to the panel's top edge.
+enum PanelLayout {
+    /// At or above this content width the log sidebar is shown as a fixed
+    /// right-hand column; below it (and in compact mode) the panel is a single
+    /// column and the close button sits at the panel's own top-right corner.
+    static let logSidebarMinWidth: CGFloat = 500
+
+    /// Fixed width of the log sidebar column, so the main column — and the
+    /// controls row under both — keeps its geometry as the panel widens.
+    static let logSidebarWidth: CGFloat = 185
+
+    static func showsLogSidebar(forContentWidth width: CGFloat) -> Bool {
+        width >= logSidebarMinWidth
+    }
+
+    /// Resizes `current` to `size` while holding its top edge (`maxY`) fixed, so
+    /// switching between the full panel and the compact pill grows or shrinks
+    /// from the bottom and the panel stays anchored to its top-left corner.
+    static func topAnchoredFrame(from current: CGRect, size: CGSize) -> CGRect {
+        CGRect(
+            x: current.origin.x,
+            y: current.maxY - size.height,
+            width: size.width,
+            height: size.height
+        )
     }
 }
 
@@ -137,7 +165,7 @@ struct FloatingPanelView: View {
 
     private var expandedBody: some View {
         GeometryReader { proxy in
-            let showLogSidebar = proxy.size.width >= PanelMetrics.logSidebarMinWidth
+            let showLogSidebar = PanelLayout.showsLogSidebar(forContentWidth: proxy.size.width)
             VStack(alignment: .leading, spacing: PanelMetrics.rowSpacing) {
                 HStack(alignment: .top, spacing: PanelMetrics.rowSpacing) {
                     upperColumn
@@ -147,7 +175,7 @@ struct FloatingPanelView: View {
                         Divider()
 
                         SprintLogSidebar(session: session)
-                            .frame(width: PanelMetrics.logSidebarWidth)
+                            .frame(width: PanelLayout.logSidebarWidth)
                             .frame(maxHeight: .infinity, alignment: .topLeading)
                     }
                 }
