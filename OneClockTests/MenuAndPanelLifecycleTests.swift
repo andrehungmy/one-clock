@@ -2,6 +2,44 @@ import Foundation
 import Testing
 @testable import OneClock
 
+@Suite("Single Instance Policy")
+struct SingleInstancePolicyTests {
+    @Test("The oldest launch remains the primary app instance")
+    func oldestLaunchWins() {
+        let now = Date(timeIntervalSinceReferenceDate: 10_000)
+        let instances = [
+            AppInstanceIdentity(processIdentifier: 300, launchDate: now),
+            AppInstanceIdentity(processIdentifier: 200, launchDate: now.addingTimeInterval(-1)),
+        ]
+
+        #expect(SingleInstancePolicy.primaryProcessIdentifier(in: instances) == 200)
+    }
+
+    @Test("Process identifier provides a deterministic tie-breaker")
+    func processIdentifierBreaksTies() {
+        let now = Date(timeIntervalSinceReferenceDate: 10_000)
+        let instances = [
+            AppInstanceIdentity(processIdentifier: 300, launchDate: now),
+            AppInstanceIdentity(processIdentifier: 200, launchDate: now),
+        ]
+
+        #expect(SingleInstancePolicy.primaryProcessIdentifier(in: instances) == 200)
+    }
+
+    @Test("A launch date takes priority over a missing launch date")
+    func knownLaunchDateWins() {
+        let instances = [
+            AppInstanceIdentity(processIdentifier: 100, launchDate: nil),
+            AppInstanceIdentity(
+                processIdentifier: 200,
+                launchDate: Date(timeIntervalSinceReferenceDate: 10_000)
+            ),
+        ]
+
+        #expect(SingleInstancePolicy.primaryProcessIdentifier(in: instances) == 200)
+    }
+}
+
 @MainActor
 @Suite("Menu and Panel Lifecycle")
 struct MenuAndPanelLifecycleTests {

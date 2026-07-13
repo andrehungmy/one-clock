@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1C0A000F2D21000000000000 /* OneClockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A000E2D21000000000000 /* OneClockApp.swift */; };
 		1C0A00112D21000000000000 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00102D21000000000000 /* AppDelegate.swift */; };
+		1C0A00572D21000000000000 /* SingleInstancePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00562D21000000000000 /* SingleInstancePolicy.swift */; };
 		1C0A00132D21000000000000 /* MenuBarContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00122D21000000000000 /* MenuBarContent.swift */; };
 		1C0A00402D21000000000000 /* SprintMenuCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A003F2D21000000000000 /* SprintMenuCommands.swift */; };
 		1C0A00152D21000000000000 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0A00142D21000000000000 /* AppState.swift */; };
@@ -46,6 +47,7 @@
 		1C0A00062D21000000000000 /* OneClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OneClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C0A000E2D21000000000000 /* OneClockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneClockApp.swift; sourceTree = "<group>"; };
 		1C0A00102D21000000000000 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1C0A00562D21000000000000 /* SingleInstancePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleInstancePolicy.swift; sourceTree = "<group>"; };
 		1C0A00122D21000000000000 /* MenuBarContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarContent.swift; sourceTree = "<group>"; };
 		1C0A003F2D21000000000000 /* SprintMenuCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SprintMenuCommands.swift; sourceTree = "<group>"; };
 		1C0A00142D21000000000000 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			children = (
 				1C0A000E2D21000000000000 /* OneClockApp.swift */,
 				1C0A00102D21000000000000 /* AppDelegate.swift */,
+				1C0A00562D21000000000000 /* SingleInstancePolicy.swift */,
 				1C0A00122D21000000000000 /* MenuBarContent.swift */,
 				1C0A003F2D21000000000000 /* SprintMenuCommands.swift */,
 				1C0A00452D21000000000000 /* SprintSoundPlayer.swift */,
@@ -293,6 +296,7 @@
 			files = (
 				1C0A000F2D21000000000000 /* OneClockApp.swift in Sources */,
 				1C0A00112D21000000000000 /* AppDelegate.swift in Sources */,
+				1C0A00572D21000000000000 /* SingleInstancePolicy.swift in Sources */,
 				1C0A00132D21000000000000 /* MenuBarContent.swift in Sources */,
 				1C0A00402D21000000000000 /* SprintMenuCommands.swift in Sources */,
 				1C0A00272D21000000000000 /* SprintState.swift in Sources */,
