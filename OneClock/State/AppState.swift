@@ -10,14 +10,15 @@ final class AppState {
     @ObservationIgnored private let panelController: any FloatingPanelControlling
 
     init(
-        sprintSession: SprintSessionController = SprintSessionController(
+        sprintSession: SprintSessionController? = nil,
+        panelController: any FloatingPanelControlling = FloatingPanelController()
+    ) {
+        let sprintSession = sprintSession ?? SprintSessionController(
             store: UserDefaultsSprintStore(),
             cuePlayer: SystemSprintCuePlayer(),
             notifier: UserNotificationSprintNotifier(),
             logStore: UserDefaultsSprintLogStore()
-        ),
-        panelController: any FloatingPanelControlling = FloatingPanelController()
-    ) {
+        )
         self.sprintSession = sprintSession
         self.panelController = panelController
         AppDelegate.sprintSession = sprintSession

@@ -72,8 +72,6 @@ protocol SprintCuePlaying: AnyObject {
 @MainActor
 @Observable
 final class SprintSessionController {
-    static let defaultRecoveryHeartbeatInterval: TimeInterval = 5
-
     var taskTitle: String
     var plannedDuration: TimeInterval
     private(set) var currentDate: Date
@@ -109,7 +107,7 @@ final class SprintSessionController {
         cuePlayer: (any SprintCuePlaying)? = nil,
         notifier: (any SprintNotifying)? = nil,
         logStore: (any SprintLogStoring)? = nil,
-        recoveryHeartbeatInterval: TimeInterval = SprintSessionController.defaultRecoveryHeartbeatInterval
+        recoveryHeartbeatInterval: TimeInterval = 5
     ) {
         self.taskTitle = taskTitle
         self.plannedDuration = max(0, min(plannedDuration, Sprint.maximumDisplayedDuration))
