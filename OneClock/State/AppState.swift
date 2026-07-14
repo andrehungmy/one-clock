@@ -20,6 +20,7 @@ final class AppState {
     ) {
         self.sprintSession = sprintSession
         self.panelController = panelController
+        AppDelegate.sprintSession = sprintSession
         panelController.visibilityDidChange = { [weak self] isVisible in
             self?.isPanelVisible = isVisible
         }

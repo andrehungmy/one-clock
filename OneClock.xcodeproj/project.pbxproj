@@ -467,6 +467,8 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = OneClock/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright \U00a9 2026 Andre Hung";
+				INFOPLIST_PREPROCESS = YES;
+				INFOPLIST_PREPROCESSOR_DEFINITIONS = "ONECLOCK_MULTIPLE_INSTANCES_PROHIBITED=0";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -494,6 +496,8 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = OneClock/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright \U00a9 2026 Andre Hung";
+				INFOPLIST_PREPROCESS = YES;
+				INFOPLIST_PREPROCESSOR_DEFINITIONS = "ONECLOCK_MULTIPLE_INSTANCES_PROHIBITED=1";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

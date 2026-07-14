@@ -1,6 +1,11 @@
 import AppKit
 
+@MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
+    static weak var sprintSession: SprintSessionController?
+
+    private var isPrimaryInstance = true
+
     func applicationWillFinishLaunching(_ notification: Notification) {
         guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil,
               let bundleIdentifier = Bundle.main.bundleIdentifier else {
@@ -23,6 +28,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
+        isPrimaryInstance = false
         NSRunningApplication(processIdentifier: primaryProcessIdentifier)?.activate(options: [])
         NSApp.terminate(nil)
     }
@@ -33,5 +39,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         false
+    }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        guard isPrimaryInstance else {
+            return
+        }
+
+        Self.sprintSession?.prepareForTermination()
     }
 }

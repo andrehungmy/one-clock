@@ -65,4 +65,4 @@ Do not post private task names or exported logs unless you have removed sensitiv
 
 ## Product Decisions
 
-Some behavior remains open, including relaunch recovery and `-5m` near zero. Check [ROADMAP.md](ROADMAP.md) before implementing an unresolved item. Record the chosen behavior and acceptance criteria in the same change.
+Some behavior remains open, including `-5m` near zero and Mac sleep or wake handling. Check [ROADMAP.md](ROADMAP.md) before implementing an unresolved item. Record the chosen behavior and acceptance criteria in the same change.

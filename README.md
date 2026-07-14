@@ -18,7 +18,7 @@ Most focus timers disappear behind other windows or grow into task management sy
 - Shows the countdown in the menu bar and a movable floating panel.
 - Supports pause, resume, finish, overtime, and `+5m` adjustments.
 - Collapses into a compact pill or hides while the timer keeps running.
-- Restores an active sprint after relaunch.
+- Restores an active sprint as paused after relaunch without counting time while the app was closed.
 - Records completed sprints and exports Markdown or JSON.
 - Stores data on the Mac. The app has no account, analytics, or network service.
 - Keeps one app instance running, even if macOS receives another launch request.
@@ -69,7 +69,7 @@ Press `Esc` to hide the panel. Select the menu bar item to show it again, export
 | Overtime | Pause, `+5m`, finish | Counts up after `00:00` |
 | Complete | Rename, create a new sprint | Shows invested time |
 
-An active sprint uses wall-clock timestamps. If you quit and relaunch while it is running, elapsed time includes the time when the app was closed. The team still needs to confirm whether this should remain the long-term recovery policy.
+One Clock saves an exact paused recovery checkpoint during a normal Quit and refreshes the checkpoint every five seconds while a sprint is running. Relaunch always restores the sprint as Paused or Overtime Paused. Time while the app was closed does not reduce Remaining Time or increase Focused Time or Overtime. A crash or force quit can discard up to about five seconds since the last checkpoint; it never counts offline time as focus. Hiding the panel keeps the live sprint running.
 
 ## Screenshots
 

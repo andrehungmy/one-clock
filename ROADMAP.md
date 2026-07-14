@@ -10,25 +10,31 @@ Target outcome: one reliable local app process with documented behavior and repe
 - [x] Add deterministic single-instance policy tests.
 - [x] Correct README claims about macOS Spaces behavior.
 - [x] Document the source-only install status.
-- [ ] Decide relaunch recovery semantics.
+- [x] Decide relaunch recovery semantics.
+- [x] Restore Running and Overtime as paused without counting app downtime.
+- [x] Add five-second recovery heartbeats and an exact normal-Quit checkpoint.
 - [ ] Add corrupt persistence fallback and schema-version tests.
 - [ ] Run and record the manual environment matrix.
 - [ ] Add a Release build and static analysis to CI.
 
 ### Recovery decision
 
-Choose one policy before changing persistence code:
+**Selected on 2026-07-14: restore paused and exclude downtime.** Quitting One Clock ends active focus measurement until the user resumes. Hiding the panel keeps the sprint running.
 
-**Recommended: restore paused and exclude downtime.** Quitting One Clock ends active focus measurement until the user resumes. Hiding the panel keeps the sprint running.
+Implementation behavior:
 
-Alternative: keep the current wall-clock behavior. A running sprint continues while the app is closed and catches up after relaunch.
+- Normal Quit writes an exact Paused or Overtime Paused checkpoint.
+- Running refreshes its recovery checkpoint every five seconds.
+- Crash or force quit can lose up to about five seconds of focus time, but offline time is never counted.
+- Legacy Running data restores at the last trustworthy segment boundary.
 
 Acceptance criteria:
 
-- README, tutorial copy, and tests describe the same policy.
-- Running and Overtime both restore consistently.
-- Sleep, crash, normal Quit, and relaunch have recorded expected behavior.
-- No restore path replays the time-up notification or sound.
+- [x] README and tests describe the same policy.
+- [x] Running and Overtime use the same restore rule.
+- [x] Crash, normal Quit, and relaunch have recorded expected behavior.
+- [x] No restore path replays the time-up notification or sound.
+- [ ] Define and verify the separate Mac sleep and wake policy.
 
 ## Milestone 0.2: Complete the Focus Controls
 

@@ -24,8 +24,10 @@
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+#if ONECLOCK_MULTIPLE_INSTANCES_PROHIBITED
 	<key>LSMultipleInstancesProhibited</key>
 	<true/>
+#endif
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSPrincipalClass</key>

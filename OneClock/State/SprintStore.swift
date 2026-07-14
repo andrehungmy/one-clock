@@ -5,9 +5,9 @@ protocol SprintStoring {
     func save(_ sprint: Sprint?)
 }
 
-/// Persists the active sprint so an in-progress session survives app
-/// relaunches. Elapsed time is derived from absolute timestamps inside
-/// `Sprint`, so a restored running sprint keeps counting across the gap.
+/// Persists recovery snapshots so an in-progress session survives relaunches.
+/// The controller stores running phases as paused checkpoints, preventing app
+/// downtime from being counted as focused time.
 struct UserDefaultsSprintStore: SprintStoring {
     static let defaultKey = "activeSprint"
 
