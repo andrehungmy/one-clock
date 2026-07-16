@@ -2,6 +2,44 @@ import Foundation
 import Testing
 @testable import OneClock
 
+@Suite("Single Instance Policy")
+struct SingleInstancePolicyTests {
+    @Test("The oldest launch remains the primary app instance")
+    func oldestLaunchWins() {
+        let now = Date(timeIntervalSinceReferenceDate: 10_000)
+        let instances = [
+            AppInstanceIdentity(processIdentifier: 300, launchDate: now),
+            AppInstanceIdentity(processIdentifier: 200, launchDate: now.addingTimeInterval(-1)),
+        ]
+
+        #expect(SingleInstancePolicy.primaryProcessIdentifier(in: instances) == 200)
+    }
+
+    @Test("Process identifier provides a deterministic tie-breaker")
+    func processIdentifierBreaksTies() {
+        let now = Date(timeIntervalSinceReferenceDate: 10_000)
+        let instances = [
+            AppInstanceIdentity(processIdentifier: 300, launchDate: now),
+            AppInstanceIdentity(processIdentifier: 200, launchDate: now),
+        ]
+
+        #expect(SingleInstancePolicy.primaryProcessIdentifier(in: instances) == 200)
+    }
+
+    @Test("A launch date takes priority over a missing launch date")
+    func knownLaunchDateWins() {
+        let instances = [
+            AppInstanceIdentity(processIdentifier: 100, launchDate: nil),
+            AppInstanceIdentity(
+                processIdentifier: 200,
+                launchDate: Date(timeIntervalSinceReferenceDate: 10_000)
+            ),
+        ]
+
+        #expect(SingleInstancePolicy.primaryProcessIdentifier(in: instances) == 200)
+    }
+}
+
 @MainActor
 @Suite("Menu and Panel Lifecycle")
 struct MenuAndPanelLifecycleTests {
@@ -54,6 +92,17 @@ struct MenuAndPanelLifecycleTests {
         #expect(!fixture.appState.isPanelVisible)
     }
 
+    @Test("The panel access fallback reveals the floating panel")
+    func panelAccessFallbackShowsPanel() {
+        let coordinator = PanelAccessCoordinator()
+        let fixture = makeAppState(panelAccessCoordinator: coordinator)
+
+        coordinator.requestShowPanel()
+
+        #expect(fixture.appState.isPanelVisible)
+        #expect(fixture.panelController.showCallCount == 1)
+    }
+
     @Test("Running sprint continues ticking while panel is hidden")
     func runningSprintContinuesWhileHidden() {
         let fixture = makeAppState()
@@ -69,6 +118,23 @@ struct MenuAndPanelLifecycleTests {
         #expect(fixture.session.lifecycleState == .running)
         #expect(fixture.session.elapsedTime == 90)
         #expect(fixture.session.remainingTime == 510)
+    }
+
+    @Test("Finish stays available after the sprint enters overtime")
+    func finishStaysAvailableInOvertime() {
+        let fixture = makeAppState()
+
+        fixture.session.start()
+        fixture.clock.now = baseDate.addingTimeInterval(601)
+        fixture.ticker.emit(fixture.clock.now)
+
+        #expect(fixture.session.lifecycleState == .overtimeRunning)
+        #expect(fixture.session.canFinish)
+
+        fixture.session.finish()
+
+        #expect(fixture.session.lifecycleState == .completed)
+        #expect(!fixture.session.canFinish)
     }
 
     @Test("Menu command availability follows controller capabilities")
@@ -106,7 +172,9 @@ struct MenuAndPanelLifecycleTests {
         #expect(!commands.canFinish)
     }
 
-    private func makeAppState() -> AppFixture {
+    private func makeAppState(
+        panelAccessCoordinator: PanelAccessCoordinator = .shared
+    ) -> AppFixture {
         let clock = ManualSprintClock(now: baseDate)
         let ticker = ManualSprintTicker()
         let session = SprintSessionController(
@@ -116,7 +184,11 @@ struct MenuAndPanelLifecycleTests {
             ticker: ticker
         )
         let panelController = FakePanelController()
-        let appState = AppState(sprintSession: session, panelController: panelController)
+        let appState = AppState(
+            sprintSession: session,
+            panelController: panelController,
+            panelAccessCoordinator: panelAccessCoordinator
+        )
         return AppFixture(
             appState: appState,
             session: session,

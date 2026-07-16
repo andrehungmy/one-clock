@@ -10,16 +10,20 @@ final class AppState {
     @ObservationIgnored private let panelController: any FloatingPanelControlling
 
     init(
-        sprintSession: SprintSessionController = SprintSessionController(
+        sprintSession: SprintSessionController? = nil,
+        panelController: any FloatingPanelControlling = FloatingPanelController(),
+        panelAccessCoordinator: PanelAccessCoordinator = .shared
+    ) {
+        let sprintSession = sprintSession ?? SprintSessionController(
             store: UserDefaultsSprintStore(),
             cuePlayer: SystemSprintCuePlayer(),
             notifier: UserNotificationSprintNotifier(),
             logStore: UserDefaultsSprintLogStore()
-        ),
-        panelController: any FloatingPanelControlling = FloatingPanelController()
-    ) {
+        )
         self.sprintSession = sprintSession
         self.panelController = panelController
+        AppDelegate.sprintSession = sprintSession
+        panelAccessCoordinator.appState = self
         panelController.visibilityDidChange = { [weak self] isVisible in
             self?.isPanelVisible = isVisible
         }

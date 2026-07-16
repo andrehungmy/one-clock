@@ -2,118 +2,132 @@
 
 [![CI](https://github.com/andrehungmy/one-clock/actions/workflows/ci.yml/badge.svg)](https://github.com/andrehungmy/one-clock/actions/workflows/ci.yml)
 
-One Clock is a macOS menu bar focus timer that keeps the current task and remaining time visible in a lightweight floating window.
+A macOS menu bar focus timer that keeps one task and its remaining time visible while you work.
 
-## Problem
+> Project status: early source build (`0.1.0`). One Clock does not have a signed download or GitHub Release yet. Build it locally with Xcode to try it.
 
-Focus timers often become either too intrusive or too easy to ignore. One Clock explores a calmer middle ground: a persistent focus anchor that reminds the user what they intended to work on without becoming a full task manager.
+<img src="assets/running.png" width="640" alt="One Clock running a focus sprint in its floating panel">
 
-## Product Hypothesis
+## Why One Clock
 
-If a timer keeps the active task visible alongside time remaining, users can recover focus faster after interruptions and make cleaner decisions about when to continue, pause, or finish a focus sprint.
+Most focus timers disappear behind other windows or grow into task management systems. One Clock keeps the current task and timer in view, then gets out of the way.
 
-## Features
+## What It Does
 
-- **Single focus sprint** — one task title, one countdown, no task manager. Leave the title empty and the sprint auto-names itself ("Sprint 1", "Sprint 2", …) based on your log.
-- **Rename anywhere** — the sprint name is editable before, during, after a sprint, and directly in the log sidebar; renames propagate to the recorded history.
-- **First-run tutorial** — a seven-step walkthrough opens on first launch (or anytime via "Show Tutorial" in the menu) and ends by handing you the keyboard for your first sprint.
-- **A primary action that never moves** — one controls row spans the bottom of the panel, so Start, Finish, and New Sprint always live in the bottom-right corner, with or without the log sidebar.
-- **Positional MM:SS entry** — the colon is always visible and each digit is its own slot: click any position and type (a "5" in the first slot reads 50:00, in the second slot 05:00); empty slots show as dimmed zeros so what you see is exactly what starts. Arrow keys and Backspace edit in place; Return starts.
-- **Quick presets** — 15m / 25m / 45m chips, and +5m during any active state (in overtime it returns the sprint to a running countdown).
-- **Floating always-on-top panel** — translucent, follows you across Spaces and full-screen apps; drag anywhere, resize from 260×212 up to 800×560, hide with `Esc` or the close button (the timer keeps running and stays visible in the menu bar).
-- **Compact mode** — collapse the panel to a slim pill (state dot, live time, task name) that barely occupies the workspace; expand, or hide it entirely, from the pill itself. The choice persists.
-- **Sprint log sidebar** — widen the panel and your logged sprints appear as a fixed-width list beside the timer, newest day first, with names editable in place; narrow it (or go compact) and the panel returns to a single column.
-- **Layout-stable states** — every state renders the same fixed slot skeleton with fixed type sizes; pausing, overtime, and window resizing never shift the title, numbers, or controls.
-- **Near-zero energy use** — no per-second animations (digits flip like a plain clock), per-second updates invalidate only the time and progress leaves, and the backdrop is a window-server-composited `NSVisualEffectView`: ~0.4 % CPU while counting down.
-- **Menu bar countdown** — remaining time (or `+MM:SS` overtime) is always visible in the status bar; a pause icon shows when the sprint is paused.
-- **Time-up notification** — when the countdown reaches zero you get a system notification and a subtle sound cue, then the sprint keeps counting up as overtime instead of interrupting you.
-- **Sprint log** — every finished sprint records its name, originally planned time, and actual invested time, grouped by day; export as Markdown or JSON from the menu bar, or clear the log (with confirmation).
-- **Post-sprint summary** — the result screen compares planned vs invested time ("Planned 25:00 · 02:30 over") with one action: New Sprint.
-- **Session recovery** — an in-progress sprint survives quitting or relaunching the app; elapsed time is derived from absolute timestamps, so it stays accurate across the gap.
-- **Menu bar controls** — start, pause/resume, finish, new, reset, and the sprint log are available from the status item menu even when the panel is hidden; the countdown keeps updating while you drag the panel or browse menus.
+- Runs one focus sprint at a time.
+- Shows the countdown in the menu bar and a movable floating panel.
+- Supports pause, resume, finish, overtime, and `+5m` adjustments.
+- Collapses into a compact pill or hides while the timer keeps running.
+- Restores an active sprint as paused after relaunch without counting time while the app was closed.
+- Records completed sprints and exports Markdown or JSON.
+- Stores data on the Mac. The app has no account, analytics, or network service.
+- Keeps one app instance running, even if macOS receives another launch request.
 
-## Screenshots
-
-Setting up a sprint, with the log sidebar revealed by widening the panel:
-
-<img src="assets/setup.png" width="640" alt="Setup: positional MM:SS entry, quick presets, and the sprint log sidebar">
-
-A sprint in progress — the primary action stays bottom-right in every state:
-
-<img src="assets/running.png" width="640" alt="Running: live countdown, pause and +5m controls, editable sprint name">
-
-Compact pill mode keeps the countdown visible while barely occupying the workspace:
-
-<img src="assets/compact.png" width="264" alt="Compact pill: state dot, live time, and task name">
-
-A seven-step tutorial introduces the flow on first launch:
-
-<img src="assets/tutorial.png" width="340" alt="First-run tutorial overlay">
-
-## Requirements
-
-- macOS 14.0 or later
-- Xcode 16 or later (Swift 6) to build from source
+The floating panel stays on one macOS Space at a time. Reopening it from another Space moves it to the current Space. It can appear over full-screen apps.
 
 ## Build and Run
 
+### Requirements
+
+- macOS 14 or later
+- Xcode 16 or later with Swift 6 support
+
+### Local build
+
 ```sh
+git clone https://github.com/andrehungmy/one-clock.git
+cd one-clock
 ./script/build_and_run.sh
 ```
 
-Run the test suite:
+The script builds into a temporary `DerivedData` directory, stops any running development build, and opens the new app. One Clock runs in the menu bar and does not show a Dock icon.
+
+If the menu bar is crowded or the One Clock item is not visible, press
+`Control-Option-Space` to show the floating panel. Opening One Clock again also
+brings the existing instance's panel forward instead of starting a duplicate.
+
+If the repository sits in an iCloud-synced Desktop or Documents folder, keep `DerivedData` outside that folder. The included scripts already do this. Override the location when needed:
+
+```sh
+ONECLOCK_DERIVED_DATA=/path/to/DerivedData ./script/build_and_run.sh
+```
+
+## Use One Clock
+
+1. Enter a task name or leave it empty for an automatic `Sprint N` name.
+2. Set `MM:SS` by selecting a digit, or choose `15m`, `25m`, or `45m`.
+3. Press Return or select Start.
+4. Pause, resume, add five minutes, or finish from the panel or menu bar.
+5. Collapse the panel when you need more screen space; Finish remains available in the compact pill. Hiding the panel keeps the timer running.
+6. Finish the sprint to record the result and prepare the next sprint.
+
+Press `Esc` to hide the panel. Select the menu bar item to show it again, export the sprint log, reopen the tutorial, or quit.
+Press `Control-Option-Space` from any app to bring the panel back.
+
+## Current States
+
+| State | Main actions | Timer behavior |
+|---|---|---|
+| Setup | Set time, choose a preset, start | No active sprint |
+| Running | Pause, `+5m`, finish | Counts down |
+| Paused | Resume, `+5m`, finish | Holds the current value |
+| Overtime | Pause, `+5m`, finish | Counts up after `00:00` |
+| Complete | Rename, create a new sprint | Shows invested time |
+
+One Clock saves an exact paused recovery checkpoint during a normal Quit and refreshes the checkpoint every five seconds while a sprint is running. Relaunch always restores the sprint as Paused or Overtime Paused. Time while the app was closed does not reduce Remaining Time or increase Focused Time or Overtime. A crash or force quit can discard up to about five seconds since the last checkpoint; it never counts offline time as focus. Hiding the panel keeps the live sprint running.
+
+## Screenshots
+
+Set up a sprint and widen the panel to reveal the log:
+
+<img src="assets/setup.png" width="640" alt="One Clock setup with positional time entry and sprint log">
+
+Collapse the active sprint into a compact pill with direct access to Finish:
+
+<img src="assets/compact.png" width="264" alt="One Clock compact mode with time and task name">
+
+Open the first-run tutorial from the panel or menu bar:
+
+<img src="assets/tutorial.png" width="340" alt="One Clock first-run tutorial">
+
+## Data and Privacy
+
+One Clock stores the active sprint, preferences, and sprint log in the app's local `UserDefaults` container. It does not send usage or task data to a server. Log export writes only to the location selected in the macOS save panel.
+
+Removing a sandboxed build also removes data in its app container unless you export the log first. Data from older non-sandboxed development builds is not migrated.
+
+## Development
+
+Run the complete test suite:
 
 ```sh
 ./script/test.sh
 ```
 
-> **Note for iCloud-synced folders:** if the repository lives under `~/Desktop` or `~/Documents` with iCloud sync enabled, keep `DerivedData` outside the synced folder (the scripts already do this). The iCloud file provider adds Finder metadata to build products, which makes `codesign` fail with "resource fork, Finder information, or similar detritus not allowed".
-
-## Architecture
+The code separates the timer state machine from SwiftUI and AppKit:
 
 ```text
 OneClock/
-  App/       App entry point, menu bar scene, sound cues
-  Domain/    Pure sprint state machine (no UI, no timers)
-  State/     Observable session controller, persistence
-  Views/     SwiftUI panel views and presentation helpers
-  Window/    AppKit floating NSPanel lifecycle
+  App/       App lifecycle, menu bar, notifications, sound, export
+  Domain/    Pure sprint state and transition logic
+  State/     Session coordination and local persistence
+  Views/     SwiftUI presentation
+  Window/    Floating NSPanel lifecycle
+OneClockTests/
 ```
 
-- **Domain layer** (`SprintEngine`, `Sprint`) is a pure, synchronous state machine driven by explicit `Date` values — fully deterministic and unit-testable without timers.
-- **`SprintSessionController`** owns the active sprint, coordinates a 1-second ticker, persists every state transition, and plays sound cues on overtime/finish. Clock, ticker, store, and sound player are all injected protocols, so tests use manual fakes.
-- **`FloatingPanelController`** wraps a borderless, resizable `NSPanel` that can join all Spaces; SwiftUI content is hosted via `NSHostingController`.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the verification checklist. [PROJECT_AUDIT.md](PROJECT_AUDIT.md) records the current product and engineering assessment. [ROADMAP.md](ROADMAP.md) lists the recommended order of work and open product decisions.
 
-## Repository Structure
+## Distribution Status
 
-```text
-OneClock/              macOS app source
-OneClockTests/         unit tests (Swift Testing)
-OneClock.xcodeproj/    Xcode project
-script/                local development scripts
-assets/                README screenshots
-.github/workflows/     CI (build + test on macOS)
-```
+The project enables App Sandbox and Hardened Runtime. A public distribution still needs:
 
-## Distribution Readiness
+- A production bundle identifier and Apple signing identity.
+- A signed and notarized build.
+- An asset-catalog app icon and release metadata.
+- A tested install and upgrade path.
 
-Aligned with Apple's platform requirements today:
-
-- **App Sandbox** is enabled with a minimal entitlement set (user-selected read/write, needed only for log export via the save panel).
-- **Hardened Runtime** is enabled in build settings; it takes effect when the app is signed with a real identity (local dev builds are ad-hoc signed, where macOS omits the runtime flag).
-- Info.plist declares `LSApplicationCategoryType` (Productivity), copyright, and `LSUIElement` for the menu-bar-only lifecycle. No private APIs, no network access.
-
-Remaining gaps before App Store / notarized distribution:
-
-- Developer ID or App Store signing and notarization (requires an Apple Developer account).
-- An asset-catalog `AppIcon` — the App Store requires one; the app currently ships a generated `.icns` (see `script/generate_app_icon.swift`).
-- App Store Connect metadata, screenshots, and a privacy label (trivial: no data collection).
-
-## Known Limitations
-
-- No `−5 min` control yet (PRD defines it; the engine only supports adding time).
-- The sprint log lives in `UserDefaults` — fine for personal volumes, not designed as a database.
-- Enabling the sandbox moved app data into the app container; data written by pre-sandbox dev builds is not migrated.
+Until those items are complete, treat the repository as a development build rather than an installable release.
 
 ## License
 

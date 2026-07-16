@@ -252,17 +252,21 @@ private final class ManualSprintTicker: SprintTicking {
 struct SprintSessionPersistenceTests {
     private let baseDate = Date(timeIntervalSinceReferenceDate: 5_000)
 
-    @Test("Active sprint is saved on every state transition")
-    func activeSprintIsSavedOnTransitions() {
+    @Test("Recovery snapshots pause active runtime states")
+    func recoverySnapshotsPauseActiveRuntimeStates() {
         let fixture = makeController(plannedDuration: 600)
 
         fixture.controller.start()
-        #expect(fixture.persistence.savedSprint?.phase == .running)
+        #expect(fixture.controller.lifecycleState == .running)
+        #expect(fixture.persistence.savedSprint?.phase == .paused)
 
         fixture.controller.pause()
         #expect(fixture.persistence.savedSprint?.phase == .paused)
 
         fixture.controller.resume()
+        #expect(fixture.controller.lifecycleState == .running)
+        #expect(fixture.persistence.savedSprint?.phase == .paused)
+
         fixture.controller.finish()
         #expect(fixture.persistence.savedSprint?.phase == .completed)
     }
@@ -277,10 +281,12 @@ struct SprintSessionPersistenceTests {
         #expect(fixture.persistence.savedSprint == nil)
     }
 
-    @Test("A running sprint is restored at launch and keeps counting")
-    func runningSprintIsRestoredAtLaunch() throws {
+    @Test("A running heartbeat restores paused and excludes downtime")
+    func runningHeartbeatRestoresPausedAndExcludesDowntime() throws {
         let fixture = makeController(plannedDuration: 600)
         fixture.controller.start()
+        fixture.clock.now = baseDate.addingTimeInterval(30)
+        fixture.ticker.emit(fixture.clock.now)
         let saved = try #require(fixture.persistence.savedSprint)
 
         let laterClock = ManualSprintClock(now: baseDate.addingTimeInterval(90))
@@ -290,11 +296,93 @@ struct SprintSessionPersistenceTests {
             store: fixture.persistence
         )
 
-        #expect(restored.lifecycleState == .running)
+        #expect(saved.phase == .paused)
+        #expect(restored.lifecycleState == .paused)
         #expect(restored.taskTitle == saved.taskTitle)
-        #expect(restored.elapsedTime == 90)
-        #expect(restored.remainingTime == 510)
-        #expect(restored.isTickerRunning)
+        #expect(restored.elapsedTime == 30)
+        #expect(restored.remainingTime == 570)
+        #expect(!restored.isTickerRunning)
+
+        laterClock.now = baseDate.addingTimeInterval(100)
+        restored.resume()
+
+        #expect(restored.sprint?.accumulatedPausedDuration == 10)
+        #expect(restored.elapsedTime == 30)
+    }
+
+    @Test("Recovery heartbeat writes every five seconds while running")
+    func recoveryHeartbeatUsesFiveSecondInterval() throws {
+        let fixture = makeController(plannedDuration: 600)
+        fixture.controller.start()
+        let savesAfterStart = fixture.persistence.saveCallCount
+
+        fixture.clock.now = baseDate.addingTimeInterval(4)
+        fixture.ticker.emit(fixture.clock.now)
+        #expect(fixture.persistence.saveCallCount == savesAfterStart)
+
+        fixture.clock.now = baseDate.addingTimeInterval(5)
+        fixture.ticker.emit(fixture.clock.now)
+        let saved = try #require(fixture.persistence.savedSprint)
+
+        #expect(fixture.persistence.saveCallCount == savesAfterStart + 1)
+        #expect(saved.phase == .paused)
+        #expect(SprintEngine.focusedElapsedTime(for: saved, at: baseDate.addingTimeInterval(500)) == 5)
+    }
+
+    @Test("Normal termination saves an exact paused checkpoint")
+    func normalTerminationSavesExactCheckpoint() throws {
+        let fixture = makeController(plannedDuration: 600)
+        fixture.controller.start()
+        fixture.clock.now = baseDate.addingTimeInterval(2.5)
+
+        fixture.controller.prepareForTermination()
+        let saved = try #require(fixture.persistence.savedSprint)
+
+        #expect(saved.phase == .paused)
+        #expect(SprintEngine.focusedElapsedTime(for: saved, at: baseDate.addingTimeInterval(500)) == 2.5)
+        #expect(SprintEngine.currentRemainingTime(for: saved, at: baseDate.addingTimeInterval(500)) == 597.5)
+    }
+
+    @Test("Overtime heartbeat restores overtime paused without offline growth")
+    func overtimeHeartbeatRestoresPausedAndExcludesDowntime() throws {
+        let fixture = makeController(plannedDuration: 60)
+        fixture.controller.start()
+        fixture.clock.now = baseDate.addingTimeInterval(75)
+        fixture.ticker.emit(fixture.clock.now)
+        let saved = try #require(fixture.persistence.savedSprint)
+
+        let restored = SprintSessionController(
+            clock: ManualSprintClock(now: baseDate.addingTimeInterval(600)),
+            ticker: ManualSprintTicker(),
+            store: fixture.persistence
+        )
+
+        #expect(saved.phase == .overtimePaused)
+        #expect(restored.lifecycleState == .overtimePaused)
+        #expect(restored.elapsedTime == 75)
+        #expect(restored.overtimeDuration == 15)
+        #expect(!restored.isTickerRunning)
+    }
+
+    @Test("Legacy running data restores paused without counting an unknown gap")
+    func legacyRunningDataRestoresAtSafeBoundary() throws {
+        let persistence = InMemorySprintStore()
+        let running = try SprintEngine.start(
+            Sprint(taskTitle: "Legacy", plannedDuration: 600),
+            at: baseDate
+        )
+        persistence.save(running)
+
+        let restored = SprintSessionController(
+            clock: ManualSprintClock(now: baseDate.addingTimeInterval(90)),
+            ticker: ManualSprintTicker(),
+            store: persistence
+        )
+
+        #expect(restored.lifecycleState == .paused)
+        #expect(restored.elapsedTime == 0)
+        #expect(restored.remainingTime == 600)
+        #expect(!restored.isTickerRunning)
     }
 
     @Test("Setup and completed sprints are not restored at launch")
@@ -359,7 +447,8 @@ struct SprintSessionPersistenceTests {
             cuePlayer: cues
         )
 
-        #expect(controller.lifecycleState == .overtimeRunning)
+        #expect(controller.lifecycleState == .overtimePaused)
+        #expect(controller.elapsedTime == 60)
         #expect(cues.overtimeCueCount == 0)
     }
 
@@ -417,12 +506,14 @@ private struct PersistenceFixture {
 
 private final class InMemorySprintStore: SprintStoring {
     private(set) var savedSprint: Sprint?
+    private(set) var saveCallCount = 0
 
     func load() -> Sprint? {
         savedSprint
     }
 
     func save(_ sprint: Sprint?) {
+        saveCallCount += 1
         savedSprint = sprint
     }
 }

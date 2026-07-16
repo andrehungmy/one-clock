@@ -95,6 +95,8 @@ final class SprintSessionController {
     @ObservationIgnored private let cuePlayer: (any SprintCuePlaying)?
     @ObservationIgnored private let notifier: (any SprintNotifying)?
     @ObservationIgnored let logStore: (any SprintLogStoring)?
+    @ObservationIgnored private let recoveryHeartbeatInterval: TimeInterval
+    @ObservationIgnored private var lastRecoverySnapshotAt: Date?
 
     init(
         taskTitle: String = "",
@@ -104,7 +106,8 @@ final class SprintSessionController {
         store: (any SprintStoring)? = nil,
         cuePlayer: (any SprintCuePlaying)? = nil,
         notifier: (any SprintNotifying)? = nil,
-        logStore: (any SprintLogStoring)? = nil
+        logStore: (any SprintLogStoring)? = nil,
+        recoveryHeartbeatInterval: TimeInterval = 5
     ) {
         self.taskTitle = taskTitle
         self.plannedDuration = max(0, min(plannedDuration, Sprint.maximumDisplayedDuration))
@@ -115,6 +118,7 @@ final class SprintSessionController {
         self.cuePlayer = cuePlayer
         self.notifier = notifier
         self.logStore = logStore
+        self.recoveryHeartbeatInterval = max(0, recoveryHeartbeatInterval)
         self.logEntries = logStore?.entries() ?? []
 
         restoreFromStoreIfNeeded()
@@ -344,6 +348,14 @@ final class SprintSessionController {
         currentDate = date
         advanceActiveSprintIfNeeded()
         coordinateTicker()
+        persistRecoverySnapshot(force: false)
+    }
+
+    /// Saves an exact recovery checkpoint before a normal app termination.
+    /// The runtime state stays unchanged because the process is about to exit.
+    func prepareForTermination() {
+        currentDate = clock.now
+        persistRecoverySnapshot(force: true)
     }
 
     private func perform(_ action: SprintAction, _ operation: () throws -> Void) {
@@ -410,15 +422,36 @@ final class SprintSessionController {
         }
 
         switch saved.phase {
-        case .running, .paused, .overtimeRunning, .overtimePaused:
-            restore(saved)
+        case .paused, .overtimePaused:
+            var recovered = saved
+            recovered.pauseStartedAt = currentDate
+            restore(recovered)
+        case .running, .overtimeRunning:
+            // Legacy versions persisted live running timestamps without a
+            // heartbeat date. Recover at the segment start so offline time is
+            // never mistaken for focused time.
+            let safeCheckpoint = saved.activeSegmentStartedAt
+                ?? saved.originalStartedAt
+                ?? currentDate
+            guard var recovered = try? SprintEngine.recoverySnapshot(saved, at: safeCheckpoint) else {
+                store?.save(nil)
+                return
+            }
+            if saved.phase == .overtimeRunning {
+                recovered.accumulatedFocusedDuration = max(
+                    recovered.accumulatedFocusedDuration,
+                    saved.plannedDuration
+                )
+            }
+            recovered.pauseStartedAt = currentDate
+            restore(recovered)
         case .setup, .completed:
             store?.save(nil)
         }
     }
 
     private func handleSprintChange(from oldSprint: Sprint?) {
-        store?.save(sprint)
+        persistRecoverySnapshot(force: true)
 
         guard let sprint, let oldPhase = oldSprint?.phase else {
             return
@@ -455,6 +488,32 @@ final class SprintSessionController {
         )
         logStore?.append(entry)
         logEntries.append(entry)
+    }
+
+    private func persistRecoverySnapshot(force: Bool) {
+        guard let store else {
+            return
+        }
+        guard let sprint else {
+            store.save(nil)
+            lastRecoverySnapshotAt = nil
+            return
+        }
+
+        if !force, let lastRecoverySnapshotAt {
+            let timeSinceLastSnapshot = currentDate.timeIntervalSince(lastRecoverySnapshotAt)
+            guard timeSinceLastSnapshot < 0
+                    || timeSinceLastSnapshot >= recoveryHeartbeatInterval else {
+                return
+            }
+        }
+
+        guard let snapshot = try? SprintEngine.recoverySnapshot(sprint, at: currentDate) else {
+            return
+        }
+
+        store.save(snapshot)
+        lastRecoverySnapshotAt = currentDate
     }
 
     private func coordinateTicker() {

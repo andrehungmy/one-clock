@@ -686,9 +686,9 @@ private struct SprintLogRow: View {
     }
 }
 
-/// Pill-shaped compact mode: state dot, live time, task title, expand and
-/// hide controls. The sprint keeps running and the menu bar keeps its
-/// countdown; this is the minimal-footprint anchor for deep work.
+/// Pill-shaped compact mode: state dot, live time, task title, finish, expand,
+/// and hide controls. The sprint keeps running until the user finishes it;
+/// this is the minimal-footprint anchor for deep work.
 private struct CompactPanelView: View {
     @Bindable var session: SprintSessionController
     let onExpand: @MainActor () -> Void
@@ -749,6 +749,20 @@ private struct CompactPanelView: View {
                 .help(displayTitle)
 
             Spacer(minLength: 4)
+
+            if session.canFinish {
+                Button("Finish", systemImage: "stop.fill") {
+                    session.finish()
+                }
+                .labelStyle(.iconOnly)
+                .buttonStyle(.plain)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.primary)
+                .frame(width: 22, height: 22)
+                .contentShape(Rectangle())
+                .help("Finish sprint")
+                .accessibilityHint("Stops timing and records this sprint")
+            }
 
             Button("Expand", systemImage: "arrow.up.left.and.arrow.down.right") {
                 onExpand()

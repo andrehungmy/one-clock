@@ -45,6 +45,30 @@ struct SprintEngineTests {
         #expect(SprintEngine.currentRemainingTime(for: paused, at: later) == 1_380)
     }
 
+    @Test("Recovery snapshot pauses a running sprint at the checkpoint")
+    func recoverySnapshotPausesRunningSprint() throws {
+        let sprint = try startedSprint(plannedDuration: 600)
+        let checkpoint = startDate.addingTimeInterval(120)
+        let snapshot = try SprintEngine.recoverySnapshot(sprint, at: checkpoint)
+
+        #expect(snapshot.phase == .paused)
+        #expect(snapshot.activeSegmentStartedAt == nil)
+        #expect(snapshot.pauseStartedAt == checkpoint)
+        #expect(SprintEngine.focusedElapsedTime(for: snapshot, at: checkpoint.addingTimeInterval(600)) == 120)
+        #expect(SprintEngine.currentRemainingTime(for: snapshot, at: checkpoint.addingTimeInterval(600)) == 480)
+    }
+
+    @Test("Recovery snapshot preserves overtime without offline growth")
+    func recoverySnapshotPausesOvertimeSprint() throws {
+        let sprint = try startedSprint(plannedDuration: 60)
+        let checkpoint = startDate.addingTimeInterval(75)
+        let snapshot = try SprintEngine.recoverySnapshot(sprint, at: checkpoint)
+
+        #expect(snapshot.phase == .overtimePaused)
+        #expect(SprintEngine.focusedElapsedTime(for: snapshot, at: checkpoint.addingTimeInterval(600)) == 75)
+        #expect(SprintEngine.overtimeDuration(for: snapshot, at: checkpoint.addingTimeInterval(600)) == 15)
+    }
+
     @Test("Resume starts a new running segment")
     func resumeStartsNewRunningSegment() throws {
         let sprint = try startedSprint()
@@ -168,4 +192,3 @@ struct SprintEngineTests {
         return try SprintEngine.start(sprint, at: startDate)
     }
 }
-

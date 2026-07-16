@@ -76,6 +76,18 @@ enum SprintEngine {
         }
     }
 
+    /// Produces the persisted form of an active sprint without changing the
+    /// in-memory runtime state. Running phases become paused at the snapshot
+    /// date so time after the checkpoint is never counted during recovery.
+    static func recoverySnapshot(_ sprint: Sprint, at date: Date) throws -> Sprint {
+        switch sprint.phase {
+        case .running, .overtimeRunning:
+            try pause(sprint, at: date)
+        case .setup, .paused, .overtimePaused, .completed:
+            sprint
+        }
+    }
+
     static func resume(_ sprint: Sprint, at date: Date) throws -> Sprint {
         var updated = try advanced(sprint, to: date)
 
@@ -228,4 +240,3 @@ enum SprintEngine {
         max(0, sprint.plannedDuration - focusedElapsedTime(for: sprint, at: date))
     }
 }
-
