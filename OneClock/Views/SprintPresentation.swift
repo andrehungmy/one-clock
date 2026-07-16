@@ -172,7 +172,7 @@ enum OnboardingFlow {
         OnboardingStep(
             symbolName: "pause.fill",
             title: "While it runs",
-            message: "Pause, add +5m, or finish from the bottom row. Shrink to a pill or hide the panel from the top-right — the menu bar keeps counting."
+            message: "Pause, add +5m, or finish from the bottom row. The compact pill also keeps Finish within reach; hiding the panel keeps the menu bar counting."
         ),
         OnboardingStep(
             symbolName: "list.bullet.rectangle",

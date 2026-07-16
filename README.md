@@ -42,6 +42,10 @@ cd one-clock
 
 The script builds into a temporary `DerivedData` directory, stops any running development build, and opens the new app. One Clock runs in the menu bar and does not show a Dock icon.
 
+If the menu bar is crowded or the One Clock item is not visible, press
+`Control-Option-Space` to show the floating panel. Opening One Clock again also
+brings the existing instance's panel forward instead of starting a duplicate.
+
 If the repository sits in an iCloud-synced Desktop or Documents folder, keep `DerivedData` outside that folder. The included scripts already do this. Override the location when needed:
 
 ```sh
@@ -54,10 +58,11 @@ ONECLOCK_DERIVED_DATA=/path/to/DerivedData ./script/build_and_run.sh
 2. Set `MM:SS` by selecting a digit, or choose `15m`, `25m`, or `45m`.
 3. Press Return or select Start.
 4. Pause, resume, add five minutes, or finish from the panel or menu bar.
-5. Collapse or hide the panel when you need more screen space. The timer continues.
+5. Collapse the panel when you need more screen space; Finish remains available in the compact pill. Hiding the panel keeps the timer running.
 6. Finish the sprint to record the result and prepare the next sprint.
 
 Press `Esc` to hide the panel. Select the menu bar item to show it again, export the sprint log, reopen the tutorial, or quit.
+Press `Control-Option-Space` from any app to bring the panel back.
 
 ## Current States
 
@@ -77,7 +82,7 @@ Set up a sprint and widen the panel to reveal the log:
 
 <img src="assets/setup.png" width="640" alt="One Clock setup with positional time entry and sprint log">
 
-Collapse the active sprint into a compact pill:
+Collapse the active sprint into a compact pill with direct access to Finish:
 
 <img src="assets/compact.png" width="264" alt="One Clock compact mode with time and task name">
 

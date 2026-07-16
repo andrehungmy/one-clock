@@ -30,6 +30,7 @@ struct MenuBarContent: View {
                systemImage: appState.isPanelVisible ? "eye.slash" : "macwindow") {
             appState.togglePanel()
         }
+        .keyboardShortcut(.space, modifiers: [.control, .option])
 
         Divider()
 

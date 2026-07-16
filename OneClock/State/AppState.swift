@@ -11,7 +11,8 @@ final class AppState {
 
     init(
         sprintSession: SprintSessionController? = nil,
-        panelController: any FloatingPanelControlling = FloatingPanelController()
+        panelController: any FloatingPanelControlling = FloatingPanelController(),
+        panelAccessCoordinator: PanelAccessCoordinator = .shared
     ) {
         let sprintSession = sprintSession ?? SprintSessionController(
             store: UserDefaultsSprintStore(),
@@ -22,6 +23,7 @@ final class AppState {
         self.sprintSession = sprintSession
         self.panelController = panelController
         AppDelegate.sprintSession = sprintSession
+        panelAccessCoordinator.appState = self
         panelController.visibilityDidChange = { [weak self] isVisible in
             self?.isPanelVisible = isVisible
         }

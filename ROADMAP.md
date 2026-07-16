@@ -40,6 +40,7 @@ Acceptance criteria:
 
 Target outcome: finish the useful parts of the original MVP without expanding One Clock into a task manager.
 
+- [x] Keep `Finish` available in compact mode, including Overtime.
 - [ ] Add `-5m` to setup, running, and paused states.
 - [ ] Add a visible time-up cue that respects Reduce Motion.
 - [ ] Keep the primary action in a stable position across states.
